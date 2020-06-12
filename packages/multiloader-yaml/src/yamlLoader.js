@@ -18,5 +18,6 @@ export default function yamlLoader() {
       }
       return defaultTransformSource(source, context);
     },
+    loader: "yaml",
   };
 }

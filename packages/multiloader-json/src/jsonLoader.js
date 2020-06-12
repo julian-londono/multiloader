@@ -6,5 +6,6 @@ export default function jsonLoader() {
       }
       return defaultGetFormat(url, context);
     },
+    loader: "json",
   };
 }

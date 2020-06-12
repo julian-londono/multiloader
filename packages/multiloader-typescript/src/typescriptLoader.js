@@ -22,5 +22,6 @@ export default function typescriptLoader() {
       }
       return defaultTransformSource(source, context);
     },
+    loader: "TypeScript",
   };
 }

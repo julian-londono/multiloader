@@ -8,13 +8,13 @@ import yaml from './packages/multiloader-yaml/src/yamlLoader.js';
 import babel from './packages/multiloader-babel/src/babelLoader.js';
 
 loader(
-  https({
-    allowHttp: true,
-  }),
-  json(),
-  typescript(),
+  // https({
+  //   allowHttp: true,
+  // }),
+  // json(),
+  // typescript(),
   babel({
     presets: ['@babel/preset-react'],
   }),
-  yaml(),
+  // yaml(),
 );

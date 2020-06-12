@@ -11,5 +11,6 @@ export default function babelLoader(options = {}) {
       }
       return defaultTransformSource(source, context);
     },
+    loader: "Babel",
   };
 }

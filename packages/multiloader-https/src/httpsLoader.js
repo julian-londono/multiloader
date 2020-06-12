@@ -36,8 +36,10 @@ export default function httpsLoader(options = {}) {
           url: new URL(specifier, parentURL).href,
         };
       }
-
-      return defaultResolve(specifier, context);
+      console.log("returning default");
+      let ret = defaultResolve(specifier, context);
+      console.log(ret);
+      return ret;
     },
 
     getFormat(url, context, defaultGetFormat) {
@@ -73,5 +75,6 @@ export default function httpsLoader(options = {}) {
 
       return defaultGetSource(url, context);
     },
+    loader: "https",
   };
 }
