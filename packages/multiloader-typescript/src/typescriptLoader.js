@@ -1,6 +1,6 @@
 import TypeScript from 'typescript';
 
-export default function typescriptLoader() {
+export default function typescriptLoader(compilerOptions = {}) {
   return {
     getFormat(url, context, defaultGetFormat) {
       if (url.endsWith('.ts')) {
@@ -13,11 +13,7 @@ export default function typescriptLoader() {
       const { url } = context;
       if (url.endsWith('.ts')) {
         return {
-          source: TypeScript.transpileModule(source, {
-            compilerOptions: {
-              module: TypeScript.ModuleKind.ES2015,
-            },
-          }).outputText,
+          source: TypeScript.transpileModule(source, compilerOptions).outputText,
         };
       }
       return defaultTransformSource(source, context);

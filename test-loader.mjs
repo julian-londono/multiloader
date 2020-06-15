@@ -7,12 +7,14 @@ import typescript from './packages/multiloader-typescript/src/typescriptLoader.j
 import yaml from './packages/multiloader-yaml/src/yamlLoader.js';
 import babel from './packages/multiloader-babel/src/babelLoader.js';
 
+import tsConfig from "./tsconfig.mjs";
+
 loader(
-  https({
-    allowHttp: true,
-  }),
+  // https({
+  //   allowHttp: true,
+  // }),
   // json(),
-  typescript(),
+  typescript(tsConfig),
   // babel({
   //   presets: ['@babel/preset-react'],
   // }),
