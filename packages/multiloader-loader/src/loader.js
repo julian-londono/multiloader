@@ -45,63 +45,100 @@ export default function configureLoader(...loaders) {
 }
 
 export async function resolve(specifier, context, defaultResolve, index = 0) {
+
+  /*
+    Only use this hook depending on the file type
+  */
+
   if (resolveHooks.hooks[index]) {
-    console.log("index", index);
-    console.log("specifier", specifier, "context", context.parentURL);
     
-    console.log("resolving for", resolveHooks.loaders[index], "\n*********************************************");
-    return resolveHooks.hooks[index](specifier, context, (s, c) =>
+    console.log("START resolving for", resolveHooks.loaders[index], " -- Specifier: \n", specifier.slice(0,120), "\n*********************************************\n"); 
+    
+    let ret = resolveHooks.hooks[index](specifier, context, (s, c)  =>
       resolve(s, c, defaultResolve, index + 1),
     );
+
+    console.log("DONE resolving for", resolveHooks.loaders[index], "\n*********************************************\n");
+
+    return ret; 
   }
+
+  
   return defaultResolve(specifier, context, defaultResolve);
 }
 
 export async function getFormat(
-  specifier,
+  url,
   context,
   defaultGetFormat,
   index = 0,
 ) {
   if (getFormatHooks.hooks[index]) {
-    console.log("formatting for", getFormatHooks.loaders[index], "\n*********************************************");
+    console.log("START formatting for", getFormatHooks.loaders[index], " -- url \n", url.slice(0,120), "\n*********************************************\n");
 
-    return getFormatHooks.hooks[index](specifier, context, (s, c) =>
+    let ret = getFormatHooks.hooks[index](url, context, (s, c) =>
       getFormat(s, c, defaultGetFormat, index + 1),
     );
+
+    console.log("DONE formatting for", getFormatHooks.loaders[index], "\n*********************************************\n");
+
+    return ret; 
+
+    
   }
-  return defaultGetFormat(specifier, context, defaultGetFormat);
+  return defaultGetFormat(url, context, defaultGetFormat);
 }
 
 export async function getSource(
-  specifier,
+  url,
   context,
   defaultGetSource,
   index = 0,
 ) {
   if (getSourceHooks.hooks[index]) {
-    console.log("sourcing for", getSourceHooks.loaders[index], "\n*********************************************");
+    console.log("START sourcing for", getSourceHooks.loaders[index], " -- url \n", url.slice(0,120), "\n*********************************************\n");
 
-    return getSourceHooks.hooks[index](specifier, context, (s, c) =>
+    let ret = getSourceHooks.hooks[index](url, context, (s, c) =>
       getSource(s, c, defaultGetSource, index + 1),
     );
+
+    // console.log("**********************SOURCE*************\n\n");
+    // console.log((await ret).source.toString('utf8'));
+    // console.log("**********************FIN*************\n\n");
+    
+
+    console.log("DONE sourcing for", getSourceHooks.loaders[index], "\n*********************************************\n");
+
+    return ret; 
+
+    
   }
-  return defaultGetSource(specifier, context, defaultGetSource);
+  return defaultGetSource(url, context, defaultGetSource);
 }
 
 export async function transformSource(
-  specifier,
+  source,
   context,
   defaultTransformSource,
   index = 0,
 ) {
 
   if (transformSourceHooks.hooks[index]) {
-    console.log("transforming for", transformSourceHooks.loaders[index], "\n*********************************************");
+    console.log("START transforming for", transformSourceHooks.loaders[index], "\n*********************************************\n");
 
-    return transformSourceHooks.hooks[index](specifier, context, (s, c) =>
+    let ret = transformSourceHooks.hooks[index](source, context, (s, c) =>
       transformSource(s, c, defaultTransformSource, index + 1),
     );
+
+    console.log("**********************POST TRANSFORM SOURCE*************\n\n");
+    // console.log((await ret).source.toString('utf8'));
+    console.log("******************************FIN***********************\n\n");
+
+    console.log("DONE transforming for", transformSourceHooks.loaders[index], "\n*********************************************\n");
+
+    return ret;
+
+    
   }
-  return defaultTransformSource(specifier, context, defaultTransformSource);
+  return defaultTransformSource(source, context, defaultTransformSource);
 }

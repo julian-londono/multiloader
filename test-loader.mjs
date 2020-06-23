@@ -11,12 +11,12 @@ import coffee from '../node-loaders/coffeescript-loader/loader.js';
 import tsConfig from "./tsconfig.mjs";
  
 loader(
-  // https({
-  //   allowHttp: true,
-  // }),
+  https({
+    allowHttp: true,
+  }),
   // json(),
-  coffee(), 
-  // typescript(tsConfig),
+  // coffee(), 
+  typescript(tsConfig),
   // babel({
   //   presets: ['@babel/preset-react'],
   // }),
